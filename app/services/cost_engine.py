@@ -1,4 +1,5 @@
 class CostEngine:
 
     def calculate_cluster(self, pods):
-        return {"total_cost": len(pods) * 10}
+        total = len(pods) * 5
+        return {"total_cost": total}
