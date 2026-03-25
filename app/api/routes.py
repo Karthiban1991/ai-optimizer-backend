@@ -1,16 +1,30 @@
 from fastapi import APIRouter
 from app.services.k8s_service import K8sService
-from app.services.ai_agent import AIAgent
+from app.services.ai_engine import AIEngine
+from app.services.cost_engine import CostEngine
+from app.services.rl_agent import RLAgent
 
 router = APIRouter()
 
 k8s = K8sService()
-ai = AIAgent()
+ai = AIEngine()
+cost = CostEngine()
+rl = RLAgent()
 
 @router.get("/pods")
-def get_pods():
+def pods():
     return k8s.list_pods()
 
+@router.get("/cost")
+def get_cost():
+    pods = k8s.list_pods()
+    return cost.calculate_cluster(pods)
+
+@router.post("/optimize")
+def optimize():
+    pods = k8s.list_pods()
+    return ai.optimize(pods)
+
 @router.post("/chat")
-def chat(prompt: str):
-    return {"response": ai.run(prompt)}
+def chat(data: dict):
+    return {"response": "AI processed: " + data["prompt"]}
