@@ -1,1 +1,6 @@
-
+fastapi
+uvicorn
+kubernetes
+openai
+psycopg2-binary
+redis
